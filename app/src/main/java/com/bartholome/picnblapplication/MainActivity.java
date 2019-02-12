@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -88,5 +89,53 @@ public class MainActivity extends AppCompatActivity {
 
     private void setRotation(final ImageView image, final int drawable ){
         RotateAnimation rotateAnimation = new RotateAnimation(0, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotateAnimation.setDuration(100);
+        rotateAnimation.setInterpolator(new LinearInterpolator());
+        rotateAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                image.setImageResource(drawable);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        image.startAnimation(rotateAnimation);
+    }
+
+    private int setButtonPosition(int position){
+        position = position + 1;
+        if (position == 5){
+            position = 1;
+        }
+        return position;
+    }
+
+    private void setButtonImage(int state){
+        switch (state){
+            case STATE_BLUE:
+                setRotation(iv_button, R.drawable.ic_blue);
+                buttonState = STATE_BLUE;
+                break;
+            case STATE_RED:
+                setRotation(iv_button, R.drawable.ic_red);
+                buttonState = STATE_RED;
+                break;
+            case STATE_YELLOW:
+                setRotation(iv_button, R.drawable.ic_yellow);
+                buttonState = STATE_YELLOW;
+                break;
+            case STATE_GREEN:
+                setRotation(iv_button, R.drawable.ic_green);
+                buttonState = STATE_GREEN;
+                break;
+        }
     }
 }
