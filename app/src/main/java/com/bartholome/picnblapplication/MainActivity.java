@@ -10,6 +10,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -60,9 +61,44 @@ public class MainActivity extends AppCompatActivity {
         iv_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
+                setButtonImage(setButtonPosition(buttonState));
             }
         });
+
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                currentTime = currentTime - 100;
+                progressBar.setProgress(currentTime);
+
+                if (currentTime > 0){
+                    handler.postDelayed(runnable, 100);
+                } else {
+                    if (buttonState == arrowState){
+                        currentPoints = currentPoints + 1;
+                        tv_points.setText("Points :" + currentPoints);
+
+                        startTime = startTime - 100;
+                        if (startTime<1000){
+                            startTime = 2000;
+                        }
+                        progressBar.setMax(startTime);
+                        currentTime = startTime;
+                        progressBar.setProgress(currentTime);
+
+                        arrowState = r.nextInt(4) + 1;
+                        setArrowImage(arrowState);
+
+                        handler.postDelayed(runnable, 100);
+                    } else {
+                        iv_button.setEnabled(false);
+                        Toast.makeText(MainActivity.this, "Game Over!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        };
+        handler.postDelayed(runnable,100);
     }
 
     private void setArrowImage(int state)
