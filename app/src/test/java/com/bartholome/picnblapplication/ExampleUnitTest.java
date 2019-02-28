@@ -45,7 +45,7 @@ public class ExampleUnitTest {
                     arrowState = STATE_GREEN;
                     break;
             }
-        assertEquals(STATE_BLUE, arrowState);
+        assertEquals(STATE_RED, arrowState);
     }
 
 }
